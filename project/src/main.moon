@@ -17,17 +17,21 @@ love.resize = (w, h) ->
 Push\setupScreen gameWidth, gameHeight, windowWidth, windowHeight, {fullscreen: true} --{fullscreen: true}
 
 
+
 class TextElement
-    new: (@text, @x, @y, @col={1/255, 1/255, 1/255, 0}) =>
-        @x = @x 
-        @y = @y
-        @col = @col
+    new: (@text, @x, @y, @col) =>
     draw: =>
         love.graphics.setColor(@col)
         love.graphics.print(@text, @x, @y)
-        --love.graphics.print("foo", 128, 128)
 
---local logobg, obj_logo --, video
+-- 49/255, 54/255, 64/255
+class SimpleRect
+    new: (@x, @y, @w, @h, @border_w, @colorFG) =>
+
+    draw: =>
+        love.graphics.setColor(@colorFG)
+        love.graphics.rectangle("fill", @x+@border_w, @y+@border_w, @w-@border_w, @h-@border_w)
+        love.graphics.setColor 1.0, 1.0, 1.0, 1.0
 
 love.load = ->
     --print "main love.load success!"
@@ -52,11 +56,17 @@ love.update = (dt) ->
 
 
 
-local el_txt
-el_txt = TextElement "Frost CMS", 0, 0, {0, 0, 0, 255/255}
+local el_txt, el_shape, bg_color
+
+bg_color = {214/255, 215/255, 216/255}
+el_txt = TextElement "Frost CMS", 0, 0, {0.0, 0.0, 0.0, 1.0}
+--el_shape = SimpleRect 64, 64, 256, 512, 0, {0.1921, 0.2117, 0.25, 1.0}
+el_shape = SimpleRect 64, 64, 256, 512, 0, {0.1921, 0.2117, 0.25, 1.0}
+
 love.draw = () ->
     --love.graphics.print("Frost Alpha.", 256, 256)
     el_txt\draw!
+    el_shape\draw!
     --love.graphics.setColor 1.0, 1.0, 1.0, 1.0
     
 
