@@ -17,14 +17,24 @@ love.resize = (w, h) ->
 Push\setupScreen gameWidth, gameHeight, windowWidth, windowHeight, {fullscreen: true} --{fullscreen: true}
 
 
+class TextElement
+    new: (@text, @x, @y, @col={1/255, 1/255, 1/255, 0}) =>
+        @x = @x 
+        @y = @y
+        @col = @col
+    draw: =>
+        love.graphics.setColor(@col)
+        love.graphics.print(@text, @x, @y)
+        --love.graphics.print("foo", 128, 128)
 
-    
 --local logobg, obj_logo --, video
+
 love.load = ->
     --print "main love.load success!"
     love.graphics.setDefaultFilter "nearest"
     love.keyboard.setKeyRepeat(false)
     love.graphics.setBackgroundColor(214/255, 215/255, 216/255, 0)
+    --create your new UI here for now
     
 
 love.keypressed = (key, scancode) ->
@@ -40,10 +50,15 @@ love.update = (dt) ->
   if acc >= ticks then
     acc = acc - ticks --assures we dont lose any ticks in case acc is above ticks, instead of setting it to 0
 
-    
+
+
+local el_txt
+el_txt = TextElement "Frost CMS", 0, 0, {0, 0, 0, 255/255}
 love.draw = () ->
-    love.graphics.print("Frost Alpha.", 256, 256)
-    love.graphics.setColor 1.0, 1.0, 1.0, 1.0
+    --love.graphics.print("Frost Alpha.", 256, 256)
+    el_txt\draw!
+    --love.graphics.setColor 1.0, 1.0, 1.0, 1.0
+    
 
 
 

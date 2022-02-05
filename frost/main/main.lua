@@ -12,6 +12,44 @@ end
 Push:setupScreen(gameWidth, gameHeight, windowWidth, windowHeight, {
   fullscreen = true
 })
+local TextElement
+do
+  local _class_0
+  local _base_0 = {
+    draw = function(self)
+      love.graphics.setColor(self.col)
+      return love.graphics.print(self.text, self.x, self.y, 255 / 255)
+    end
+  }
+  _base_0.__index = _base_0
+  _class_0 = setmetatable({
+    __init = function(self, text, x, y, col)
+      if col == nil then
+        col = {
+          1 / 255,
+          1 / 255,
+          1 / 255,
+          0
+        }
+      end
+      self.text, self.x, self.y, self.col = text, x, y, col
+      self.x = self.x
+      self.y = self.y
+      self.col = self.col
+    end,
+    __base = _base_0,
+    __name = "TextElement"
+  }, {
+    __index = _base_0,
+    __call = function(cls, ...)
+      local _self_0 = setmetatable({}, _base_0)
+      cls.__init(_self_0, ...)
+      return _self_0
+    end
+  })
+  _base_0.__class = _class_0
+  TextElement = _class_0
+end
 love.load = function()
   love.graphics.setDefaultFilter("nearest")
   love.keyboard.setKeyRepeat(false)
@@ -32,7 +70,13 @@ love.update = function(dt)
     acc = acc - ticks
   end
 end
+local el_txt
+el_txt = TextElement("Frost CMS", 0, 0, {
+  0,
+  0,
+  0,
+  255 / 255
+})
 love.draw = function()
-  love.graphics.print("Frost Alpha.", 256, 256)
-  return love.graphics.setColor(1.0, 1.0, 1.0, 1.0)
+  return el_txt:draw()
 end
