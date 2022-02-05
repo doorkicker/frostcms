@@ -12,10 +12,10 @@ end
 Push:setupScreen(gameWidth, gameHeight, windowWidth, windowHeight, {
   fullscreen = true
 })
-local logobg, obj_logo
 love.load = function()
   love.graphics.setDefaultFilter("nearest")
-  return love.keyboard.setKeyRepeat(false)
+  love.keyboard.setKeyRepeat(false)
+  return love.graphics.setBackgroundColor(214 / 255, 215 / 255, 216 / 255, 0)
 end
 love.keypressed = function(key, scancode)
   if key == "escape" then

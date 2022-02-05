@@ -18,12 +18,13 @@ Push\setupScreen gameWidth, gameHeight, windowWidth, windowHeight, {fullscreen: 
 
 
 
-
-local logobg, obj_logo --, video
+    
+--local logobg, obj_logo --, video
 love.load = ->
     --print "main love.load success!"
     love.graphics.setDefaultFilter "nearest"
     love.keyboard.setKeyRepeat(false)
+    love.graphics.setBackgroundColor(214/255, 215/255, 216/255, 0)
     
 
 love.keypressed = (key, scancode) ->
