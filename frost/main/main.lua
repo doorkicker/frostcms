@@ -68,9 +68,19 @@ do
   SimpleRect = _class_0
 end
 love.load = function()
+  love.filesystem.setIdentity("frost")
   love.graphics.setDefaultFilter("nearest")
   love.keyboard.setKeyRepeat(false)
-  return love.graphics.setBackgroundColor(214 / 255, 215 / 255, 216 / 255, 0)
+  love.graphics.setBackgroundColor(214 / 255, 215 / 255, 216 / 255, 0)
+  if love.filesystem.getInfo("config.ini") then
+    print("found configuration. reading...")
+    local file = love.filesystem.read("config.ini")
+    return print(file)
+  else
+    print("no initial configuration file found, overwriting...")
+    local ok = love.filesystem.createDirectory("content")
+    local success = love.filesystem.write("config.ini", "init=true")
+  end
 end
 love.keypressed = function(key, scancode)
   if key == "escape" then
@@ -99,7 +109,12 @@ el_txt = TextElement("Frost CMS", 0, 0, {
   0.0,
   1.0
 })
-el_shape = SimpleRect(64, 64, 256, 512, 0, bg_color)
+el_shape = SimpleRect(64, 64, 256, 512, 0, {
+  0.1921,
+  0.2117,
+  0.25,
+  1.0
+})
 love.draw = function()
   el_txt:draw()
   return el_shape:draw()
