@@ -59,6 +59,9 @@ love.load = ->
         success = love.filesystem.write("config.ini", "init=true")
     --love.system.openURL(cwd)
 
+love.filedropped = (file) ->
+    print("file dropped!")
+
 love.keypressed = (key, scancode) ->
     if key == "escape" then
         love.event.quit!
