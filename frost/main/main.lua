@@ -3,6 +3,20 @@ local Camera = require("camera")
 local flux = require("flux")
 local moonshine = require("moonshine")
 local Gamestate = require("gamestate")
+local split
+split = function(s, sep)
+  local results = { }
+  while true do
+    local i = string.find(s, sep)
+    if i == nil then
+      print("finished! result: " .. s)
+      return results
+    end
+    local chunk = string.sub(s, 1, i - 1)
+    table.insert(results, chunk)
+    s = string.sub(s, i + 1)
+  end
+end
 love.window.setTitle("Frost CMS for Game Development")
 local gameWidth, gameHeight = 1280, 720
 local windowWidth, windowHeight = love.window.getDesktopDimensions()
@@ -75,12 +89,20 @@ love.load = function()
   if love.filesystem.getInfo("config.ini") then
     print("found configuration. reading...")
     local file = love.filesystem.read("config.ini")
-    return print(file)
+    print(file)
   else
     print("no initial configuration file found, overwriting...")
     local ok = love.filesystem.createDirectory("content")
     local success = love.filesystem.write("config.ini", "init=true")
   end
+  local f = split("foo!/bar/baz.", "/")
+  return print(f[1], f[2])
+end
+love.filedropped = function(file)
+  print("file dropped!")
+  file:open("r")
+  local data = file:read()
+  return love.filesystem.write("foo.txt", data)
 end
 love.keypressed = function(key, scancode)
   if key == "escape" then
