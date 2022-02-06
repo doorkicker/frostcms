@@ -7,6 +7,18 @@ Gamestate = require "gamestate"
 --ow1 = require "ow1"
 --mainmenu = require "mainmenu"
 
+split = (s, sep) ->
+  results = {}
+  while true
+    i = string.find(s, sep)
+    if i == nil
+        print("finished! result: "..s)
+        --return s
+        return results
+    chunk = string.sub(s, 1, i-1)
+    table.insert(results, chunk)
+    s = string.sub(s, i+1)
+
 
 love.window.setTitle "Frost CMS for Game Development"
 gameWidth, gameHeight = 1280, 720
@@ -61,6 +73,9 @@ love.load = ->
 
 love.filedropped = (file) ->
     print("file dropped!")
+    file\open("r")
+    data = file\read!
+    love.filesystem.write("foo.txt", data)
 
 love.keypressed = (key, scancode) ->
     if key == "escape" then
